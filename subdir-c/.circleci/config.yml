@@ -1,0 +1,15 @@
+version: 2.1
+
+# Resources defined in this config have a prefix `C-` to avoid conflicts upon combine/merge
+
+jobs:
+  C-build:
+    docker:
+      - image: debian:unstable-slim
+    steps:
+      - run: echo Running tests for subdirectory C
+
+workflows:
+  C-main-workflow:
+    jobs:
+      - C-build

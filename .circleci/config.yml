@@ -1,0 +1,16 @@
+version: 2.1
+
+setup: true
+
+orbs:
+  config-splitting: circle-makotom-orbs/config-splitting@0.0.1
+
+workflows:
+  setup:
+    jobs:
+      # Specify the file which lists directories to be tested for changes in `module-list-file`
+      # This job examines whether each listed directory has any change
+      # and conditionally selects the configs specified in `.circleci-config-dependencies` of the directory for merge/combine
+      - config-splitting/run-modular-configs-selectively:
+          module-list-file: .circleci/subdir-list.txt
+          base-revision: main # Compare against the main branch to detect changes

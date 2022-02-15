@@ -1,16 +1,26 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-setup: true
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  say-hello:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    docker:
+      - image: cimg/base:stable
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
 
-orbs:
-  config-splitting: circle-makotom-orbs/config-splitting@0.0.1
-
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  setup:
+  say-hello-workflow:
     jobs:
-      # Specify the file which lists directories to be tested for changes in `module-list-file`
-      # This job examines whether each listed directory has any change
-      # and conditionally selects the configs specified in `.circleci-config-dependencies` of the directory for merge/combine
-      - config-splitting/run-modular-configs-selectively:
-          module-list-file: .circleci/subdir-list.txt
-          base-revision: main # Compare against the main branch to detect changes
+      - say-hello
